@@ -1,10 +1,10 @@
 from django.urls import path
-from .views import manufacturerView, componentView, homeView
+from .views.manufacturerView import ManufacturerViewList, ManufacturerViewDetail
+from .views.componentView import ComponentViewList, ComponentViewDetail
 
 urlpatterns = [
-    path('home', homeView.APIOverview),
-    path('components', componentView.ComponentList.as_view()),
-    path('components/<int:pk>', componentView.ComponentDetail.as_view()),
-    path('manufacturers', manufacturerView.ManufacturerList.as_view()),
-    path('manufacturers/<int:pk>', manufacturerView.ManufacturerDetail.as_view()),
+    path('manufacturers', ManufacturerViewList.as_view()),
+    path('manufacturers/<int:id>', ManufacturerViewDetail.as_view()),
+    path('components', ComponentViewList.as_view()),
+    path('components/<int:id>', ComponentViewDetail.as_view()),
 ]

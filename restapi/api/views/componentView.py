@@ -1,18 +1,35 @@
-from rest_framework import generics
-from repository.models.componentModel import Component
-from ..serializers.componentSerializer import ComponentSerializer
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from repository.data.componentRepository import ComponentRepository
 
-class ComponentList(generics.ListCreateAPIView):
-    serializer_class = ComponentSerializer
+class ComponentViewList(APIView):
+    def get(self, request):
+        repository = ComponentRepository()
+        components = repository.select_many()
+        return Response(components, status = status.HTTP_200_OK)
 
-    def get_queryset(self):
-        queryset = Component.objects.all()
-        manufacturer = self.request.query_params.get('manufacturer')
-        if manufacturer is not None:
-            queryset = queryset.filter(manufacturer = manufacturer)
-        return queryset
+    def post(self, request):
+        repository = ComponentRepository()
+        requestData = request.data
+        component = repository.create(data = requestData)
+        return Response(component, status = status.HTTP_201_CREATED)
 
-class ComponentDetail(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = ComponentSerializer
+class ComponentViewDetail(APIView):
+    def get(self, request, id):
+        repository = ComponentRepository()
+        component = repository.select(pk = id)
+        if component is None:
+            return Response(status = status.HTTP_404_NOT_FOUND)
+        return Response(component, status = status.HTTP_200_OK)
 
-    queryset = Component.objects.all()
+    def put(self, request, id):
+        repository = ComponentRepository()
+        requestData = request.data
+        component = repository.update(data = requestData, pk = id)
+        return Response(component, status = status.HTTP_200_OK)
+
+    def delete(self, request, id):
+        repository = ComponentRepository()
+        repository.delete(pk = id)
+        return Response(status = status.HTTP_202_ACCEPTED)

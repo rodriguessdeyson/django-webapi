@@ -14,6 +14,6 @@ To setup the python environment, check the following commands in root folder:
 - pip install -r requirements.txt
 
 ### Running API
-To run the REST API, check the following commandas:
+To run the REST API, check the following commands:
 - cd restapi
 - python manage.py runserver <port>
