@@ -15,5 +15,8 @@ To setup the python environment, check the following commands in root folder:
 
 ### Running API
 To run the REST API, check the following commands:
-- cd restapi
+- cd src
 - python manage.py runserver <port>
+
+### Create Super User
+- python manage.py createsuperuser
